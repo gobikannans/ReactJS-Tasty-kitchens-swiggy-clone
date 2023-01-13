@@ -67,15 +67,15 @@ class Header extends Component {
                   ? 'active-nav-item-style'
                   : 'normal-nav-item-style'
                 return (
-                  <Link
-                    to={eachItem.link}
+                  <li
+                    className="list-item"
                     key={eachItem.id}
-                    className="nav-links"
+                    onClick={updateItem}
                   >
-                    <li className="list-item">
-                      <p className="normal-nav-item-style">{eachItem.name}</p>
-                    </li>
-                  </Link>
+                    <Link to={eachItem.link} className="nav-links">
+                      <p className={activeStyle}>{eachItem.name}</p>
+                    </Link>
+                  </li>
                 )
               })}
 
@@ -105,16 +105,23 @@ class Header extends Component {
               {' '}
               <ul className="mobile-items-list">
                 {navItemsList.map(eachItem => {
+                  const updateItem = () => {
+                    this.updateTab(eachItem.id)
+                  }
                   const isActive = eachItem.id === activeItemId
                   const activeStyle = isActive
                     ? 'active-nav-item-style'
                     : 'normal-nav-item-style'
                   return (
-                    <Link to={eachItem.link} className="nav-links">
-                      <li className="list-item" key={eachItem.id}>
+                    <li
+                      className="list-item"
+                      key={eachItem.id}
+                      onClick={updateItem}
+                    >
+                      <Link to={eachItem.link} className="nav-links">
                         <p className={activeStyle}>{eachItem.name}</p>
-                      </li>
-                    </Link>
+                      </Link>
+                    </li>
                   )
                 })}
 
