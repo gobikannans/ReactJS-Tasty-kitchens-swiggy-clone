@@ -1,0 +1,16 @@
+.home-bg-container {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.banner-container {
+  width: 80%;
+  margin-top: 50px;
+  text-align: center;
+  list-style-type: none;
+}
+
+.slick-dots {
+  margin-bottom: 40px;
+}
