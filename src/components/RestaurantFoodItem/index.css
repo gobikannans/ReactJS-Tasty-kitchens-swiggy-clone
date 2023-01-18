@@ -1,0 +1,104 @@
+.food-list-item {
+  width: 43%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-right: 0px;
+  margin-left: 10px;
+}
+
+.food-logo {
+  width: 255px;
+  height: 150px;
+  border-radius: 10px;
+}
+
+.food-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 20px;
+  line-height: 1.9;
+}
+
+.food-heading {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  color: #334155;
+  margin: 0px;
+}
+
+.food-icon {
+  margin-top: 4px;
+}
+
+.food-cost {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #334155;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+}
+
+.food-rating-icon {
+  margin-right: 3px;
+}
+
+.add-btn {
+  background-color: transparent;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  border: 2px solid #ffa412;
+  border-radius: 5px;
+  color: #ffa412;
+  margin: 0px;
+  width: 50px;
+  padding: 5px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.add-item-container {
+  display: flex;
+  align-items: center;
+  padding: 0px;
+  height: 4vh;
+}
+
+.icon-btn-dash {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #3e4c59;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.icon-btn-plus {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #3e4c59;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.add-item-text {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  color: #475569;
+  margin-right: 5px;
+  width: 10px;
+}

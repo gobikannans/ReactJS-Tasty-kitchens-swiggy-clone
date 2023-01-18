@@ -1,0 +1,133 @@
+.restaurant-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.restaurant-banner-container {
+  background-color: #333333;
+  height: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 100px;
+}
+
+.restaurant-banner-details {
+  display: flex;
+  width: 80%;
+}
+
+.restaurant-logo {
+  width: 445px;
+  height: 280px;
+}
+
+.restaurant-details {
+  margin-left: 20px;
+}
+
+.rt-heading {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 48px;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+}
+
+.rt-para {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+}
+
+.rating-cost {
+  display: flex;
+  align-items: center;
+}
+
+.rt-icon {
+  margin-right: 4px;
+  margin-top: 2px;
+}
+.rt-rating {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+
+.rt-reviews {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  color: #e2e8f0;
+}
+
+.vertical-line {
+  height: 50px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.restaurant-food-list {
+  list-style-type: none;
+  padding: 10px;
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 70%;
+  margin-top: 60px;
+}
+
+.restaurant-loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.restaurant-failure-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.restaurant-failure-heading {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  color: #183b56;
+  align-self: flex-start;
+}
+
+.restaurant-failure-para {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  color: #f7931e;
+  align-self: flex-start;
+}

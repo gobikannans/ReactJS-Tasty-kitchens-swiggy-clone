@@ -7,8 +7,6 @@ import {MdSort} from 'react-icons/md'
 import {AiOutlineLeft, AiOutlineRight} from 'react-icons/ai'
 
 import RestaurantItem from '../RestaurantItem'
-import Footer from '../Footer'
-
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './index.css'
@@ -46,7 +44,7 @@ class Home extends Component {
     restaurantsList: [],
     carouselApiStatus: carouselApiStatusConstants.initial,
     RestaurantApiStatus: RestaurantApiStatusConstants.initial,
-    sortSelectedValue: sortByOptions[1].value,
+    selectedSortByValue: sortByOptions[1].value,
     activePage: 1,
   }
 
@@ -124,13 +122,13 @@ class Home extends Component {
     this.setState({
       RestaurantApiStatus: RestaurantApiStatusConstants.inProgress,
     })
-    const {sortSelectedValue} = this.state
+    const {selectedSortByValue} = this.state
     const jwtToken = Cookies.get('jwt_token')
 
     const LIMIT = 9
     const offset = (activePage - 1) * LIMIT
 
-    const url = `https://apis.ccbp.in/restaurants-list?offset=${offset}&limit=${LIMIT}&sort_by_rating=${sortSelectedValue}`
+    const url = `https://apis.ccbp.in/restaurants-list?offset=${offset}&limit=${LIMIT}&sort_by_rating=${selectedSortByValue}`
 
     const options = {
       headers: {
@@ -238,7 +236,7 @@ class Home extends Component {
   }
 
   onChangeSort = event => {
-    this.setState({sortSelectedValue: event.target.value}, this.getHomeData)
+    this.setState({selectedSortByValue: event.target.value}, this.getHomeData)
   }
 
   renderBannerApiStatus = () => {
@@ -268,7 +266,7 @@ class Home extends Component {
   }
 
   render() {
-    const {sortSelectedValue} = this.state
+    const {selectedSortByValue} = this.state
     return (
       <div className="home-bg-container">
         <div className="banner-container">{this.renderBannerApiStatus()}</div>
@@ -286,7 +284,7 @@ class Home extends Component {
             <select
               className="sort-by-select"
               onChange={this.onChangeSort}
-              value={sortSelectedValue}
+              value={selectedSortByValue}
             >
               {sortByOptions.map(eachSort => (
                 <option key={eachSort.id}>{eachSort.displayText}</option>
@@ -297,7 +295,6 @@ class Home extends Component {
         <hr className="hr-line" />
         {this.renderRestaurantApiStatus()}
         {this.renderHomePagination()}
-        <Footer />
       </div>
     )
   }
