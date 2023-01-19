@@ -50,11 +50,13 @@ class Header extends Component {
         <nav className="navbar-container">
           <div className="navbar-item-container">
             <div className="header-logo-container">
-              <img
-                src="https://res.cloudinary.com/dpjowvn70/image/upload/v1673347763/Vector1x_yu8nat.png"
-                alt="website logo"
-                className="header-logo"
-              />
+              <Link to="/" className="nav-links">
+                <img
+                  src="https://res.cloudinary.com/dpjowvn70/image/upload/v1674121630/Frame_274_1x_tl2jpu.png"
+                  alt="website logo"
+                  className="header-logo"
+                />
+              </Link>
               <h1 className="header-heading">Tasty Kitchens</h1>
             </div>
             <ul className="nav-items-list">
@@ -67,13 +69,13 @@ class Header extends Component {
                   ? 'active-nav-item-style'
                   : 'normal-nav-item-style'
                 return (
-                  <li
-                    className="list-item"
-                    key={eachItem.id}
-                    onClick={updateItem}
-                  >
-                    <Link to={eachItem.link} className="nav-links">
-                      <p className={activeStyle}>{eachItem.name}</p>
+                  <li className="list-item" key={eachItem.id}>
+                    <Link
+                      to={eachItem.link}
+                      className={activeStyle}
+                      onClick={updateItem}
+                    >
+                      <p>{eachItem.name}</p>
                     </Link>
                   </li>
                 )

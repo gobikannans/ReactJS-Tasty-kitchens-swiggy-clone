@@ -9,7 +9,7 @@ export default function Footer() {
     <div className="footer-bg-container">
       <div className="footer-logo-container">
         <img
-          src="https://res.cloudinary.com/dpjowvn70/image/upload/v1673980926/Vector_1x_1_c8tnmv.png"
+          src="https://res.cloudinary.com/dpjowvn70/image/upload/v1674121630/Frame_275_1x_tugl0q.png"
           alt="website-footer-logo"
           className="footer-logo"
         />

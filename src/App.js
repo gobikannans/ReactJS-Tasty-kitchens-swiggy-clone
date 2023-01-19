@@ -11,6 +11,15 @@ import Footer from './components/Footer'
 import './App.css'
 import CartContext from './context/CartContext'
 
+const getCartListFromLocalStorage = () => {
+  const stringifiedCartList = localStorage.getItem('cartData')
+  const parsedCartList = JSON.parse(stringifiedCartList)
+  if (parsedCartList === null) {
+    return []
+  }
+  return parsedCartList
+}
+
 const sortByOptions = [
   {
     id: 0,
@@ -25,12 +34,31 @@ const sortByOptions = [
 ]
 
 class App extends Component {
-  state = {cartList: []}
+  state = {cartList: getCartListFromLocalStorage()}
 
-  addCartItem = item => {
-    this.setState(prevState => ({
-      cartList: [...prevState.cartList, item],
-    }))
+  addCartItem = product => {
+    const {cartList} = this.state
+    const productObject = cartList.find(
+      eachCartItem => eachCartItem.id === product.id,
+    )
+
+    if (productObject) {
+      this.setState(prevState => ({
+        cartList: prevState.cartList.map(eachCartItem => {
+          if (productObject.id === eachCartItem.id) {
+            const updatedQuantity = eachCartItem.quantity + product.quantity
+
+            return {...eachCartItem, quantity: updatedQuantity}
+          }
+
+          return eachCartItem
+        }),
+      }))
+    } else {
+      const updatedCartList = [...cartList, product]
+
+      this.setState({cartList: updatedCartList})
+    }
   }
 
   deleteCartItem = id => {
@@ -39,30 +67,29 @@ class App extends Component {
     this.setState({cartList: updatedCartList})
   }
 
-  addQuantity = id => {
+  incrementCartItemQuantity = id => {
     this.setState(prevState => ({
-      cartList: prevState.cartList.map(eachItem => {
-        if (id === eachItem.id) {
-          const updatedItem = eachItem.quantity + 1
-          return {...eachItem, quantity: updatedItem}
+      cartList: prevState.cartList.map(eachCartItem => {
+        if (id === eachCartItem.id) {
+          const updatedQuantity = eachCartItem.quantity + 1
+          return {...eachCartItem, quantity: updatedQuantity}
         }
-        return eachItem
+        return eachCartItem
       }),
     }))
   }
 
-  decreaseQuantity = id => {
+  decrementCartItemQuantity = id => {
     const {cartList} = this.state
-
-    const productItem = cartList.find(eachItem => eachItem.id === id)
-    if (productItem.quantity > 1) {
+    const productObject = cartList.find(eachCartItem => eachCartItem.id === id)
+    if (productObject.quantity > 1) {
       this.setState(prevState => ({
-        cartList: prevState.cartList.map(eachItem => {
-          if (id === eachItem.id) {
-            const updatedItem = eachItem.quantity - 1
-            return {...eachItem, quantity: updatedItem}
+        cartList: prevState.cartList.map(eachCartItem => {
+          if (id === eachCartItem.id) {
+            const updatedQuantity = eachCartItem.quantity - 1
+            return {...eachCartItem, quantity: updatedQuantity}
           }
-          return eachItem
+          return eachCartItem
         }),
       }))
     } else {
@@ -78,8 +105,8 @@ class App extends Component {
           cartList,
           addCartItem: this.addCartItem,
           deleteCartItem: this.deleteCartItem,
-          addQuantity: this.addQuantity,
-          decreaseQuantity: this.decreaseQuantity,
+          addQuantity: this.incrementCartItemQuantity,
+          decreaseQuantity: this.decrementCartItemQuantity,
         }}
       >
         <>

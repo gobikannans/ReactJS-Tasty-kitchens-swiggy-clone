@@ -70,7 +70,7 @@ class RestaurantDetails extends Component {
         cost: eachItem.cost,
         foodType: eachItem.food_type,
         id: eachItem.id,
-        imgUrl: eachItem.image_url,
+        imageUrl: eachItem.image_url,
         name: eachItem.name,
         rating: eachItem.rating,
       }))
