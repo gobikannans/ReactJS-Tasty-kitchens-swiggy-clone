@@ -17,35 +17,35 @@ const CartItem = props => {
 
   return (
     <li className="cart-list-items">
-      <div className="cart-logo-container">
-        <img src={imageUrl} alt="cart-item" className="cart-item-logo" />
+      <img src={imageUrl} alt="cart-item" className="cart-item-logo" />
+      <div className="small-cart-container">
         <h1 className="cart-item-name">{name}</h1>
-      </div>
-      <div className="cart-btn-container">
-        <button
-          type="button"
-          className="icon-btn-dash"
-          onClick={onClickDecrementQuantity}
-        >
-          <BsDashSquare />
-        </button>
-        <p className="add-item-text">{quantity}</p>
-        <button
-          type="button"
-          className="icon-btn-plus"
-          onClick={onClickIncrementQuantity}
-        >
-          <BsPlusSquare />
-        </button>
-      </div>
-      <div className="cart-cost">
-        <p className="cart-cost-name">
-          <span className="cart-icon">
-            {' '}
-            <BiRupee />
-          </span>
-          {cost}.00
-        </p>
+        <div className="cart-btn-container">
+          <button
+            type="button"
+            className="icon-btn-dash"
+            onClick={onClickDecrementQuantity}
+          >
+            <BsDashSquare />
+          </button>
+          <p className="add-item-text">{quantity}</p>
+          <button
+            type="button"
+            className="icon-btn-plus"
+            onClick={onClickIncrementQuantity}
+          >
+            <BsPlusSquare />
+          </button>
+        </div>
+        <div className="cart-cost">
+          <p className="cart-cost-name">
+            <span className="cart-icon">
+              {' '}
+              <BiRupee />
+            </span>
+            {cost}.00
+          </p>
+        </div>
       </div>
     </li>
   )

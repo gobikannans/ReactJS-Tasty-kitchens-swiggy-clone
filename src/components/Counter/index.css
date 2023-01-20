@@ -1,0 +1,30 @@
+.page-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.page-btn {
+  color: #334155;
+  padding: 5px;
+  background-color: transparent;
+  border: 1px solid #334155;
+  height: 30px;
+  cursor: pointer;
+}
+
+.arrow-icon {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.page-text {
+  font-family: 'Bree Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  text-align: center;
+  color: #334155;
+  margin-left: 10px;
+  margin-right: 10px;
+}

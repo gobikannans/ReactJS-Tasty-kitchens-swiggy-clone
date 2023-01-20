@@ -5,8 +5,6 @@ import Loader from 'react-loader-spinner'
 
 import {AiFillStar} from 'react-icons/ai'
 import {BiRupee} from 'react-icons/bi'
-import {BsPlusSquare} from 'react-icons/bs'
-import {FiMinusSquare} from 'react-icons/fi'
 
 import RestaurantFoodItem from '../RestaurantFoodItem'
 
@@ -24,7 +22,6 @@ class RestaurantDetails extends Component {
     restaurantDetailsList: [],
     foodList: [],
     apiStatus: apiStatusConstants.initial,
-    quantity: 0,
   }
 
   componentDidMount() {
@@ -85,10 +82,6 @@ class RestaurantDetails extends Component {
     } else {
       this.setState({apiStatus: apiStatusConstants.failure})
     }
-  }
-
-  onAddItems = () => {
-    this.setState({showAddItems: true})
   }
 
   renderRestaurantDetails = () => {
@@ -152,7 +145,7 @@ class RestaurantDetails extends Component {
 
   renderRestaurantLoader = () => (
     <div className="restaurant-loader-container">
-      <Loader type="ThreeDots" color="#F7931E" height="50" width="50" />
+      <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
     </div>
   )
 

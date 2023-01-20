@@ -4,8 +4,9 @@ import Loader from 'react-loader-spinner'
 
 import Cookies from 'js-cookie'
 import {MdSort} from 'react-icons/md'
-import {AiOutlineLeft, AiOutlineRight} from 'react-icons/ai'
+import {AiOutlineSearch} from 'react-icons/ai'
 
+import Counter from '../Counter'
 import RestaurantItem from '../RestaurantItem'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -31,7 +32,7 @@ const carouselApiStatusConstants = {
   failure: 'FAILURE',
 }
 
-const RestaurantApiStatusConstants = {
+const restaurantApiStatusConstants = {
   initial: 'INITIAL',
   inProgress: 'INPROGRESS',
   success: 'SUCCESS',
@@ -43,9 +44,11 @@ class Home extends Component {
     bannerList: [],
     restaurantsList: [],
     carouselApiStatus: carouselApiStatusConstants.initial,
-    RestaurantApiStatus: RestaurantApiStatusConstants.initial,
+    restaurantApiStatus: restaurantApiStatusConstants.initial,
     selectedSortByValue: sortByOptions[1].value,
     activePage: 1,
+    searchInput: '',
+    paginationStatus: false,
   }
 
   componentDidMount() {
@@ -79,13 +82,21 @@ class Home extends Component {
         carouselApiStatus: carouselApiStatusConstants.success,
       })
     } else {
-      this.setState({carouselApiStatus: carouselApiStatusConstants.failure})
+      this.setState({
+        carouselApiStatus: carouselApiStatusConstants.failure,
+      })
     }
   }
 
   renderHomeBannerLoader = () => (
     <div className="loader-container">
-      <Loader type="ThreeDots" color="#F7931E" height="50" width="50" />
+      <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
+    </div>
+  )
+
+  renderRestaurantDataLoader = () => (
+    <div className="loader-container">
+      <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
     </div>
   )
 
@@ -102,33 +113,31 @@ class Home extends Component {
       autoplaySpeed: 3000,
     }
     return (
-      <>
-        <Slider {...settings}>
-          {bannerList.map(eachItem => (
-            <img
-              src={eachItem.imgUrl}
-              alt="offer"
-              className="banner-img"
-              key={eachItem.id}
-            />
-          ))}
-        </Slider>
-      </>
+      <Slider {...settings}>
+        {bannerList.map(eachItem => (
+          <img
+            src={eachItem.imgUrl}
+            alt="offer"
+            key={eachItem.id}
+            className="banner-img"
+          />
+        ))}
+      </Slider>
     )
   }
 
   getHomeData = async () => {
-    const {activePage} = this.state
     this.setState({
-      RestaurantApiStatus: RestaurantApiStatusConstants.inProgress,
+      restaurantApiStatus: restaurantApiStatusConstants.inProgress,
     })
-    const {selectedSortByValue} = this.state
+    const {activePage, searchInput, selectedSortByValue} = this.state
+
     const jwtToken = Cookies.get('jwt_token')
 
-    const LIMIT = 9
-    const offset = (activePage - 1) * LIMIT
+    const limit = 9
+    const offset = (activePage - 1) * limit
 
-    const url = `https://apis.ccbp.in/restaurants-list?offset=${offset}&limit=${LIMIT}&sort_by_rating=${selectedSortByValue}`
+    const url = `https://apis.ccbp.in/restaurants-list?search=${searchInput}&offset=${offset}&limit=${limit}&sort_by_rating=${selectedSortByValue}`
 
     const options = {
       headers: {
@@ -138,9 +147,9 @@ class Home extends Component {
     }
 
     const response = await fetch(url, options)
-    const data = await response.json()
-    console.log(data)
     if (response.ok) {
+      const data = await response.json()
+
       const fetchedData = data.restaurants.map(eachItem => ({
         costForTwo: eachItem.cost_for_two,
         cuisine: eachItem.cuisine,
@@ -164,79 +173,64 @@ class Home extends Component {
       console.log(fetchedData)
       this.setState({
         restaurantsList: fetchedData,
-        RestaurantApiStatus: RestaurantApiStatusConstants.success,
+        restaurantApiStatus: restaurantApiStatusConstants.success,
+        paginationStatus: true,
       })
     } else {
-      this.setState({RestaurantApiStatus: RestaurantApiStatusConstants.failure})
+      this.setState({
+        restaurantApiStatus: restaurantApiStatusConstants.failure,
+        paginationStatus: false,
+      })
     }
   }
+
+  onChangeSort = event => {
+    this.setState({selectedSortByValue: event.target.value}, this.getHomeData)
+  }
+
+  onChangeSearch = event => {
+    this.setState({searchInput: event.target.value})
+  }
+
+  onKeySearch = event => {
+    if (event.key === 'Enter') {
+      this.getHomeData()
+    }
+  }
+
+  onClickSearch = () => {
+    this.getHomeData()
+  }
+
+  getActivePage = page => {
+    this.setState({activePage: page}, this.getHomeData)
+  }
+
+  renderRestaurantFailure = () => (
+    <div className="restaurant-failure-container">
+      <img
+        src="https://res.cloudinary.com/dpjowvn70/image/upload/v1674120441/cooking_1_1x_kjca9t.png"
+        alt="no-restaurant"
+      />
+      <h1 className="no-results-heading">Restaurants Not Found!</h1>
+      <p className="no-results-para">
+        Try different keywords or check again later.
+      </p>
+    </div>
+  )
 
   renderRestaurantData = () => {
     const {restaurantsList} = this.state
 
     return (
-      <ul className="restaurant-list">
-        {restaurantsList.map(eachItem => (
-          <RestaurantItem restaurantDetails={eachItem} key={eachItem.id} />
-        ))}
-      </ul>
+      <>
+        <ul className="restaurant-list">
+          {restaurantsList.map(eachItem => (
+            <RestaurantItem restaurantDetails={eachItem} key={eachItem.id} />
+          ))}
+        </ul>
+      </>
     )
-  }
-
-  renderRestaurantFailure = () => (
-    <div>
-      <h1 className="home-heading">No Restaurants Found!</h1>
-      <p className="no-restaurant-para">Please come and check again later.</p>
-    </div>
-  )
-
-  onClickPageLeft = () => {
-    const {activePage} = this.state
-
-    if (activePage > 1) {
-      this.setState(
-        prevState => ({activePage: prevState.activePage - 1}),
-        this.getHomeData,
-      )
-    }
-  }
-
-  onClickPageRight = () => {
-    const {activePage} = this.state
-
-    if (activePage < 4) {
-      this.setState(
-        prevState => ({activePage: prevState.activePage + 1}),
-        this.getHomeData,
-      )
-    }
-  }
-
-  renderHomePagination = () => {
-    const {activePage} = this.state
-    return (
-      <div className="page-container">
-        <button
-          type="button"
-          className="page-btn"
-          onClick={this.onClickPageLeft}
-        >
-          <AiOutlineLeft className="arrow-icon" />
-        </button>
-        <p className="page-text">{activePage} of 4</p>
-        <button
-          type="button"
-          className="page-btn"
-          onClick={this.onClickPageRight}
-        >
-          <AiOutlineRight className="arrow-icon" />
-        </button>
-      </div>
-    )
-  }
-
-  onChangeSort = event => {
-    this.setState({selectedSortByValue: event.target.value}, this.getHomeData)
   }
 
   renderBannerApiStatus = () => {
@@ -254,47 +248,73 @@ class Home extends Component {
   }
 
   renderRestaurantApiStatus = () => {
-    const {RestaurantApiStatus} = this.state
-    switch (RestaurantApiStatus) {
-      case RestaurantApiStatusConstants.success:
+    const {restaurantApiStatus} = this.state
+    switch (restaurantApiStatus) {
+      case restaurantApiStatusConstants.success:
         return this.renderRestaurantData()
-      case RestaurantApiStatusConstants.inProgress:
-        return this.renderHomeBannerLoader()
+      case restaurantApiStatusConstants.inProgress:
+        return this.renderRestaurantDataLoader()
+      case restaurantApiStatusConstants.failure:
+        return this.renderRestaurantFailure()
       default:
         return null
     }
   }
 
   render() {
-    const {selectedSortByValue} = this.state
+    const {selectedSortByValue, searchInput, paginationStatus} = this.state
     return (
       <div className="home-bg-container">
         <div className="banner-container">{this.renderBannerApiStatus()}</div>
         <div className="home-container">
-          <div>
-            <h1 className="home-heading">Popular Restaurants</h1>
-            <p className="home-para">
-              Select your favourite restaurant special dish and make your day
-              happy...
-            </p>
-          </div>
-          <div className="sort-by-container">
-            <MdSort color="#475569" />
-            <p className="sort-by-text">Sort by </p>
-            <select
-              className="sort-by-select"
-              onChange={this.onChangeSort}
-              value={selectedSortByValue}
-            >
-              {sortByOptions.map(eachSort => (
-                <option key={eachSort.id}>{eachSort.displayText}</option>
-              ))}
-            </select>
+          <h1 className="home-heading">Popular Restaurants</h1>
+          <p className="home-para">
+            Select your favourite restaurant special dish and make your day
+            happy...
+          </p>
+          <div className="search-sort-container">
+            <div className="search-container">
+              <>
+                <input
+                  type="search"
+                  placeholder="Search..."
+                  value={searchInput}
+                  onChange={this.onChangeSearch}
+                  onKeyDown={this.onKeySearch}
+                  className="search-input"
+                />
+                <button
+                  type="button"
+                  className="search-btn"
+                  onClick={this.onClickSearch}
+                >
+                  <AiOutlineSearch />
+                </button>
+              </>
+            </div>
+
+            <div className="sort-by-container">
+              <MdSort color="#475569" className="sort-icon" />
+              <p className="sort-by-text">Sort by </p>
+              <select
+                className="sort-by-select"
+                onChange={this.onChangeSort}
+                value={selectedSortByValue}
+              >
+                {sortByOptions.map(eachSort => (
+                  <option key={eachSort.id}>{eachSort.displayText}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
         <hr className="hr-line" />
         {this.renderRestaurantApiStatus()}
-        {this.renderHomePagination()}
+        {paginationStatus ? (
+          <Counter pageChangeFunction={this.getActivePage} />
+        ) : (
+          ''
+        )}
       </div>
     )
   }

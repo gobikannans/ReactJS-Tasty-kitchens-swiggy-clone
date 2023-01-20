@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
 import {BiRupee} from 'react-icons/bi'
 import {AiFillCheckCircle} from 'react-icons/ai'
-import {BsDashSquare, BsPlusSquare} from 'react-icons/bs'
 import CartItem from '../CartItem'
 
 import './index.css'
@@ -108,9 +107,11 @@ class Cart extends Component {
         Thank you for ordering <br />
         Your payment is successfully completed.
       </p>
-      <button type="button" className="pay-btn" onClick={this.onClickToHome}>
-        Go To Home Page
-      </button>
+      <Link to="/" className="cart-links">
+        <button type="button" className="pay-btn" onClick={this.onClickToHome}>
+          Go To Home Page
+        </button>
+      </Link>
     </div>
   )
 
@@ -119,24 +120,26 @@ class Cart extends Component {
       <img
         src="https://res.cloudinary.com/dpjowvn70/image/upload/v1674120441/cooking_1_1x_kjca9t.png"
         alt="empty cart"
+        className="empty-cart-img"
       />
-      <h1 className="no-order-heading">No Orders Yet!</h1>
+      <h1 className="no-order-heading">No Order Yet!</h1>
       <p className="no-order-para">
         Your cart is empty. Add something from the menu.
       </p>
-      <button
-        type="button"
-        className="no-order-btn"
-        onClick={this.onClickToHome}
-      >
-        Order Now
-      </button>
+      <Link to="/" className="cart-links">
+        <button
+          type="button"
+          className="no-order-btn"
+          onClick={this.onClickToHome}
+        >
+          Order Now
+        </button>
+      </Link>
     </div>
   )
 
   renderCartItems = () => {
     const {cartList} = this.state
-    const {id, imgUrl, name, cost, quantity} = cartList
     const totalAmount = this.calculateTotalAmount()
 
     return (
@@ -158,15 +161,19 @@ class Cart extends Component {
         </ul>
         <hr className="cart-hr-line" />
         <div className="order-container">
-          <h1 className="order-style">Order Total :</h1>
+          <h1 className="order-style">Order Total:</h1>
           <div className="cart-sum">
             <p className="order-style">
               <span>
-                <BiRupee className="cart-icon" />
+                <BiRupee className="order-icon" />
               </span>
               {totalAmount}.00
             </p>
-            <button className="order-btn" onClick={this.onPlaceOrder}>
+            <button
+              type="button"
+              className="order-btn"
+              onClick={this.onPlaceOrder}
+            >
               Place Order
             </button>
           </div>

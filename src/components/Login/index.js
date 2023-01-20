@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import './index.css'
 
@@ -47,8 +48,21 @@ class Login extends Component {
     }
   }
 
+  onGuestLogin = () => {
+    const jwtToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwicm9sZSI6IlBSSU1FX1VTRVIiLCJpYXQiOjE2MjMwNjU1MzJ9.D13s5wN3Oh59aa_qtXMo3Ec4wojOx0EZh8Xr5C5sRkU'
+
+    Cookies.set('jwt_token', jwtToken, {expires: 30})
+    const {history} = this.props
+    history.replace('/')
+  }
+
   render() {
     const {username, password, showErrorMsg, errorMsg} = this.state
+    const jwtToken = Cookies.get('jwt_token')
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="login-bg-container">
         <div className="login-card">
@@ -64,7 +78,7 @@ class Login extends Component {
             <h1 className="login-heading">Login</h1>
             <img
               src="https://res.cloudinary.com/dpjowvn70/image/upload/v1673372046/Rectangle_14571_qeoiah.png"
-              alt="website login"
+              alt="website log"
               className="small-landing-img"
             />
           </div>
@@ -92,6 +106,13 @@ class Login extends Component {
             {showErrorMsg ? <p className="error-msg">{errorMsg}</p> : ''}
             <button type="submit" className="login-btn">
               Login
+            </button>
+            <button
+              type="button"
+              className="guest-login-btn"
+              onClick={this.onGuestLogin}
+            >
+              Guest Login
             </button>
           </form>
         </div>

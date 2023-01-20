@@ -2,7 +2,7 @@ import {Link, withRouter} from 'react-router-dom'
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import {GiHamburgerMenu} from 'react-icons/gi'
-import {AiOutlineCloseCircle} from 'react-icons/ai'
+import {AiFillCloseCircle} from 'react-icons/ai'
 import './index.css'
 
 const navItemsList = [
@@ -21,7 +21,6 @@ const navItemsList = [
 class Header extends Component {
   state = {
     showMobileView: false,
-    activeItemId: navItemsList[0].id,
   }
 
   onLogOut = () => {
@@ -38,48 +37,31 @@ class Header extends Component {
     this.setState({showMobileView: false})
   }
 
-  updateTab = tabId => {
-    this.setState({activeItemId: tabId})
-  }
-
   render() {
-    const {showMobileView, activeItemId} = this.state
+    const {showMobileView} = this.state
 
     return (
       <>
         <nav className="navbar-container">
           <div className="navbar-item-container">
-            <div className="header-logo-container">
-              <Link to="/" className="nav-links">
+            <Link to="/" className="nav-links">
+              <div className="header-logo-container">
                 <img
                   src="https://res.cloudinary.com/dpjowvn70/image/upload/v1674121630/Frame_274_1x_tl2jpu.png"
                   alt="website logo"
                   className="header-logo"
                 />
-              </Link>
-              <h1 className="header-heading">Tasty Kitchens</h1>
-            </div>
+                <h1 className="header-heading">Tasty Kitchens</h1>
+              </div>
+            </Link>
             <ul className="nav-items-list">
-              {navItemsList.map(eachItem => {
-                const updateItem = () => {
-                  this.updateTab(eachItem.id)
-                }
-                const isActive = eachItem.id === activeItemId
-                const activeStyle = isActive
-                  ? 'active-nav-item-style'
-                  : 'normal-nav-item-style'
-                return (
-                  <li className="list-item" key={eachItem.id}>
-                    <Link
-                      to={eachItem.link}
-                      className={activeStyle}
-                      onClick={updateItem}
-                    >
-                      <p>{eachItem.name}</p>
-                    </Link>
-                  </li>
-                )
-              })}
+              {navItemsList.map(eachItem => (
+                <li className="list-item" key={eachItem.id}>
+                  <Link to={eachItem.link} className="header-links">
+                    <p className="normal-nav-item-style">{eachItem.name}</p>
+                  </Link>
+                </li>
+              ))}
 
               <li className="list-item">
                 <button
@@ -106,26 +88,13 @@ class Header extends Component {
             <>
               {' '}
               <ul className="mobile-items-list">
-                {navItemsList.map(eachItem => {
-                  const updateItem = () => {
-                    this.updateTab(eachItem.id)
-                  }
-                  const isActive = eachItem.id === activeItemId
-                  const activeStyle = isActive
-                    ? 'active-nav-item-style'
-                    : 'normal-nav-item-style'
-                  return (
-                    <li
-                      className="list-item"
-                      key={eachItem.id}
-                      onClick={updateItem}
-                    >
-                      <Link to={eachItem.link} className="nav-links">
-                        <p className={activeStyle}>{eachItem.name}</p>
-                      </Link>
-                    </li>
-                  )
-                })}
+                {navItemsList.map(eachItem => (
+                  <li className="list-item" key={eachItem.id}>
+                    <Link to={eachItem.link} className="header-links">
+                      <p>{eachItem.name}</p>
+                    </Link>
+                  </li>
+                ))}
 
                 <li className="list-item">
                   <button
@@ -142,7 +111,7 @@ class Header extends Component {
                 className="close-icon-btn"
                 onClick={this.onClickClose}
               >
-                <AiOutlineCloseCircle className="close-icon" />
+                <AiFillCloseCircle className="close-icon" />
               </button>{' '}
             </>
           ) : (

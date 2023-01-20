@@ -23,7 +23,7 @@
   font-style: normal;
   font-weight: 800;
   font-size: 16px;
-  line-height: 1;
+  line-height: 1.6;
   letter-spacing: 0.2px;
   color: #334155;
 }
@@ -97,5 +97,11 @@
 @media screen and (min-width: 1358px) {
   .restaurant-list-item {
     width: 380px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .restaurant-heading {
+    line-height: 1.1;
   }
 }
