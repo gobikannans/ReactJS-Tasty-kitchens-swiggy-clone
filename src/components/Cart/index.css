@@ -114,7 +114,8 @@
 .order-container {
   display: flex;
   justify-content: space-between;
-  width: 95%;
+  align-items: center;
+  width: 93%;
 }
 
 .order-style {
@@ -129,7 +130,7 @@
 }
 
 .order-icon {
-  margin-top: 6px;
+  margin-top: 7px;
 }
 
 .cart-sum {
@@ -203,8 +204,12 @@
   .cart-hr-line {
     margin-left: 10px;
   }
+
   .order-btn {
-    margin-left: 10px;
+    margin-left: 5px;
+  }
+  .order-container {
+    width: 91%;
   }
 
   .empty-cart-img {

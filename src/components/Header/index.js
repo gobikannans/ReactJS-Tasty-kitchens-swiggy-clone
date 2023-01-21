@@ -37,6 +37,10 @@ class Header extends Component {
     this.setState({showMobileView: false})
   }
 
+  onMobileNav = () => {
+    this.setState({showMobileView: false})
+  }
+
   render() {
     const {showMobileView} = this.state
 
@@ -89,22 +93,23 @@ class Header extends Component {
               {' '}
               <ul className="mobile-items-list">
                 {navItemsList.map(eachItem => (
-                  <li className="list-item" key={eachItem.id}>
+                  <li
+                    className="list-item"
+                    key={eachItem.id}
+                    onClick={this.onMobileNav}
+                  >
                     <Link to={eachItem.link} className="header-links">
                       <p>{eachItem.name}</p>
                     </Link>
                   </li>
                 ))}
-
-                <li className="list-item">
-                  <button
-                    type="button"
-                    className="logout-btn"
-                    onClick={this.onLogOut}
-                  >
-                    Logout
-                  </button>
-                </li>
+                <button
+                  type="button"
+                  className="logout-btn"
+                  onClick={this.onLogOut}
+                >
+                  Logout
+                </button>
               </ul>
               <button
                 type="button"
