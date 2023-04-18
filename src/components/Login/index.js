@@ -48,15 +48,6 @@ class Login extends Component {
     }
   }
 
-  onGuestLogin = () => {
-    const jwtToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwicm9sZSI6IlBSSU1FX1VTRVIiLCJpYXQiOjE2MjMwNjU1MzJ9.D13s5wN3Oh59aa_qtXMo3Ec4wojOx0EZh8Xr5C5sRkU'
-
-    Cookies.set('jwt_token', jwtToken, {expires: 30})
-    const {history} = this.props
-    history.replace('/')
-  }
-
   render() {
     const {username, password, showErrorMsg, errorMsg} = this.state
     const jwtToken = Cookies.get('jwt_token')
@@ -106,13 +97,6 @@ class Login extends Component {
             {showErrorMsg ? <p className="error-msg">{errorMsg}</p> : ''}
             <button type="submit" className="login-btn">
               Login
-            </button>
-            <button
-              type="button"
-              className="guest-login-btn"
-              onClick={this.onGuestLogin}
-            >
-              Guest Login
             </button>
           </form>
         </div>

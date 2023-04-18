@@ -3,6 +3,7 @@ import {Component} from 'react'
 import {AiFillStar} from 'react-icons/ai'
 import {BiRupee} from 'react-icons/bi'
 import {BsDashSquare, BsPlusSquare} from 'react-icons/bs'
+import AppTheme from '../../context/AppTheme'
 
 import './index.css'
 
@@ -92,51 +93,70 @@ class RestaurantFoodItem extends Component {
     const {imageUrl, name, cost, rating} = foodDetails
 
     return (
-      <li className="food-list-item">
-        <img src={imageUrl} alt="food-item" className="food-logo" />
-        <div className="food-details">
-          <h1 className="food-heading">{name}</h1>
-          <p className="food-cost">
-            <span className="food-icon">
-              <BiRupee />
-            </span>
-            {cost}.00
-          </p>
-          <p className="food-cost">
-            <span className="food-icon">
-              <AiFillStar color="#FFCC00" className="food-rating-icon" />
-            </span>{' '}
-            {rating}
-          </p>
-          {quantity === 0 ? (
-            <button
-              type="button"
-              className="add-btn"
-              onClick={this.onClickAddItem}
-            >
-              ADD
-            </button>
-          ) : (
-            <div className="add-item-container">
-              <button
-                type="button"
-                className="icon-btn-dash"
-                onClick={this.onClickMinus}
-              >
-                <BsDashSquare />
-              </button>
-              <p className="add-item-text">{quantity}</p>
-              <button
-                type="button"
-                className="icon-btn-plus"
-                onClick={this.onClickAdd}
-              >
-                <BsPlusSquare />
-              </button>
-            </div>
-          )}
-        </div>
-      </li>
+      <AppTheme.Consumer>
+        {value => {
+          const {activeTheme} = value
+
+          const foodHeading = activeTheme === 'light' ? ' #183b56' : '#f1f1f1'
+          const foodPara = activeTheme === 'light' ? '#64748b' : '#94a3b8'
+          const addFood = activeTheme === 'light' ? '#64748b' : 'orange'
+
+          return (
+            <li className="food-list-item">
+              <img src={imageUrl} alt="food-item" className="food-logo" />
+              <div className="food-details">
+                <h1 className="food-heading" style={{color: `${foodHeading}`}}>
+                  {name}
+                </h1>
+                <p className="food-cost" style={{color: `${foodPara}`}}>
+                  <span className="food-icon">
+                    <BiRupee />
+                  </span>
+                  {cost}
+                  <span>.00</span>
+                </p>
+                <p className="food-cost" style={{color: `${foodPara}`}}>
+                  <span className="food-icon">
+                    <AiFillStar color="#FFCC00" className="food-rating-icon" />
+                  </span>{' '}
+                  {rating}
+                </p>
+                {quantity === 0 ? (
+                  <button
+                    type="button"
+                    className="add-btn"
+                    onClick={this.onClickAddItem}
+                  >
+                    ADD
+                  </button>
+                ) : (
+                  <div className="add-item-container">
+                    <button
+                      type="button"
+                      className="icon-btn-dash"
+                      onClick={this.onClickMinus}
+                      style={{color: `${foodHeading}`}}
+                    >
+                      <BsDashSquare />
+                    </button>
+                    <p className="add-item-text" style={{color: `${addFood}`}}>
+                      {quantity}
+                    </p>
+                    <button
+                      type="button"
+                      className="icon-btn-plus"
+                      onClick={this.onClickAdd}
+                      style={{color: `${foodHeading}`}}
+                    >
+                      <BsPlusSquare />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </li>
+          )
+        }}
+      </AppTheme.Consumer>
     )
   }
 }

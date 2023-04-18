@@ -6,7 +6,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
 }
 
 .footer-logo-container {
@@ -37,6 +36,8 @@
   line-height: 32px;
   text-align: center;
   color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .footer-social-logos {
@@ -68,6 +69,15 @@
   }
   .footer-social-logos {
     width: 50%;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 281px) {
+  .footer-social-logos {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     margin-top: 20px;
   }
 }

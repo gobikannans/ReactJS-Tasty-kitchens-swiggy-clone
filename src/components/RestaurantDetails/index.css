@@ -13,7 +13,6 @@
   justify-content: center;
   align-items: center;
   padding-left: 60px;
-  padding-right: 30px;
 }
 
 .restaurant-banner-details {
@@ -98,6 +97,7 @@
   flex-wrap: wrap;
   width: 70%;
   margin-top: 60px;
+  margin-bottom: 30px;
 }
 
 .restaurant-loader-container {
@@ -187,11 +187,13 @@
 
 @media screen and (max-width: 767px) {
   .restaurant-food-list {
-    width: 91%;
+    width: 95%;
+    padding-left: 15px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin-top: 30px;
   }
 
   .restaurant-logo {
@@ -205,19 +207,20 @@
   }
 
   .restaurant-banner-container {
-    height: 260px;
+    height: 250px;
     width: 100%;
     padding: 0px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    padding-right: 5px;
     padding-bottom: 50px;
+    margin-top: 10px;
   }
   .restaurant-banner-details {
     display: flex;
     align-items: center;
+    margin-top: 0px;
   }
 
   .restaurant-details {
@@ -262,5 +265,20 @@
     height: 40px;
     margin-left: 10px;
     margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 281px) {
+  .restaurant-banner-container {
+    background-color: #333333;
+    height: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .restaurant-banner-details {
+    display: flex;
+    flex-direction: column;
   }
 }

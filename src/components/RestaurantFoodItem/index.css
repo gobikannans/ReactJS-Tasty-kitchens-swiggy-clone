@@ -154,3 +154,11 @@
     margin-left: 0px;
   }
 }
+
+@media screen and (max-width: 281px) {
+  .food-logo {
+    width: 50%;
+    height: 150px;
+    border-radius: 10px;
+  }
+}

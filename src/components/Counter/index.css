@@ -1,7 +1,7 @@
 .page-container {
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .page-btn {
@@ -27,4 +27,13 @@
   color: #334155;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+@media screen and (max-width: 756px) {
+  .page-container {
+    display: flex;
+    align-items: center;
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
 }

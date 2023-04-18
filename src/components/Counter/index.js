@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import {AiOutlineLeft, AiOutlineRight} from 'react-icons/ai'
+import AppTheme from '../../context/AppTheme'
 
 import './index.css'
 
@@ -34,19 +35,39 @@ class Counter extends Component {
   render() {
     const {currentPage} = this.state
     return (
-      <div className="page-container">
-        <button type="button" className="page-btn" onClick={this.onDecrement}>
-          <AiOutlineLeft className="arrow-icon" />
-        </button>
-        <div>
-          <p className="page-text">
-            <span>{currentPage}</span> of {totalPages}
-          </p>
-        </div>
-        <button type="button" className="page-btn" onClick={this.onIncrement}>
-          <AiOutlineRight className="arrow-icon" />
-        </button>
-      </div>
+      <AppTheme.Consumer>
+        {value => {
+          const {activeTheme} = value
+          const itemHeading = activeTheme === 'light' ? ' #183b56' : '#f1f1f1'
+          const itemPara = activeTheme === 'light' ? '#64748b' : '#94a3b8'
+
+          return (
+            <div className="page-container">
+              <button
+                type="button"
+                className="page-btn"
+                onClick={this.onDecrement}
+                style={{color: `${itemPara}`}}
+              >
+                <AiOutlineLeft className="arrow-icon" />
+              </button>
+              <div>
+                <p className="page-text" style={{color: `${itemHeading}`}}>
+                  <span>{currentPage}</span> of {totalPages}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="page-btn"
+                onClick={this.onIncrement}
+                style={{color: `${itemPara}`}}
+              >
+                <AiOutlineRight className="arrow-icon" />
+              </button>
+            </div>
+          )
+        }}
+      </AppTheme.Consumer>
     )
   }
 }

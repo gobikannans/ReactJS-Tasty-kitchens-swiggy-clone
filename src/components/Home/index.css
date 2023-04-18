@@ -6,11 +6,18 @@
   align-items: center;
 }
 
+.home-dark-bg-container {
+  background-color: #181818;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .banner-container {
   width: 85%;
-  margin-top: 50px;
-  text-align: center;
-  list-style-type: none;
+  margin-top: 60px;
+  align-items: center;
 }
 
 .banner-list {
@@ -22,6 +29,17 @@
 .loader-container {
   margin-top: 150px;
   height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loader-banner-container {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .slick-dots {
@@ -31,7 +49,8 @@
 .home-container {
   width: 85%;
   line-height: 1;
-  margin-top: 80px;
+  margin-top: 40px;
+  padding-bottom: 5px;
 }
 
 .sort-icon {
@@ -68,6 +87,7 @@
   cursor: pointer;
   margin-top: 16px;
   margin-bottom: 0px;
+  background-color: transparent;
 }
 
 .home-heading {
@@ -106,7 +126,7 @@
   padding: 0px;
   margin: 0px;
   margin-top: 40px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   width: 85%;
 }
 
@@ -116,6 +136,7 @@
   align-items: center;
   margin: 0px;
   padding: 0px;
+  width: 100%;
 }
 
 .search-container {
@@ -139,15 +160,13 @@
   padding-right: 10px;
   background-color: transparent;
   outline: none;
-  color: #334155;
 }
 
 .search-btn {
   height: 4vh;
   width: 50px;
   background-color: transparent;
-  border: 1px solid #909090;
-  border-right: 0px;
+  border: none;
   color: #f7931e;
   font-size: 18px;
   display: flex;
@@ -156,12 +175,20 @@
   align-items: center;
 }
 
+.sort-by-container {
+  display: flex;
+  justify-content: flex-end;
+  align-self: flex-end;
+  width: 50%;
+}
+
 .restaurant-failure-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 30vh;
+  width: 100%;
 }
 
 .no-results-heading {
@@ -185,19 +212,23 @@
   color: #64748b;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 756px) {
   .slick-dots {
     margin-bottom: 30px;
+    padding: 0px;
   }
 
   .banner-container {
     width: 99%;
+    overflow: auto;
+    margin-top: 20px;
   }
   .banner-img {
-    height: 30vh;
+    height: 24vh;
+    width: 200px;
   }
   .home-container {
-    margin-top: 20px;
+    margin-top: 10px;
     width: 90%;
   }
 
@@ -206,24 +237,24 @@
   }
   .restaurant-list {
     width: 90%;
+    margin-bottom: 0px;
   }
-  .search-sort-container {
-    display: flex;
-    flex-direction: column;
-  }
+
   .search-container {
     height: 4vh;
     width: 250px;
   }
-  .page-container {
-    margin-top: 10px;
+  .loader-banner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+    height: 25vh;
   }
 }
 
-@media screen and (max-width: 756px) {
-  .restaurant-list {
-    display: flex;
-  }
+@media screen and (max-width: 768px) {
   .home-container {
     display: flex;
     flex-direction: column;
@@ -237,10 +268,33 @@
     font-size: 15px;
     line-height: 1.6;
   }
+}
+
+@media screen and (max-width: 756px) {
+  .search-sort-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-container {
+    align-self: flex-start;
+  }
+
   .sort-by-container {
     display: flex;
     justify-content: flex-start;
     align-self: flex-start;
-    width: 100%;
+    width: 50%;
+  }
+
+  .restaurant-failure-container {
+    height: 0vh;
+  }
+
+  .no-result-img {
+    width: 60%;
+  }
+  .no-results-heading {
+    font-size: 25px;
   }
 }

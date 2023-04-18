@@ -7,6 +7,7 @@ import {AiFillStar} from 'react-icons/ai'
 import {BiRupee} from 'react-icons/bi'
 
 import RestaurantFoodItem from '../RestaurantFoodItem'
+import AppTheme from '../../context/AppTheme'
 
 import './index.css'
 
@@ -26,6 +27,7 @@ class RestaurantDetails extends Component {
 
   componentDidMount() {
     this.getRestaurantData()
+    window.scrollTo(0, 0)
   }
 
   getRestaurantData = async () => {
@@ -84,101 +86,123 @@ class RestaurantDetails extends Component {
     }
   }
 
-  renderRestaurantDetails = () => {
-    const {restaurantDetailsList, foodList} = this.state
-    const {
-      imgUrl,
-      name,
-      cuisine,
-      location,
-      rating,
-      reviews,
-      costForTwo,
-    } = restaurantDetailsList
-    console.log(imgUrl)
-
-    return (
-      <>
-        <div className="restaurant-banner-container">
-          <div className="restaurant-banner-details">
-            <img src={imgUrl} alt="restaurant" className="restaurant-logo" />
-            <div className="restaurant-details">
-              <h1 className="rt-heading">{name}</h1>
-              <p className="rt-para">{cuisine}</p>
-              <p className="rt-para">{location}</p>
-              <div className="rating-cost">
-                <div>
-                  <p className="rt-rating">
-                    {' '}
-                    <span>
-                      <AiFillStar className="rt-icon" />
-                    </span>{' '}
-                    {rating}
-                  </p>
-                  <p className="rt-reviews"> {reviews}+ Ratings</p>
-                </div>
-                <div>
-                  <hr className="vertical-line" />
-                </div>
-                <div>
-                  <p className="rt-rating">
-                    {' '}
-                    <span>
-                      <BiRupee className="rt-icon" />
-                    </span>
-                    {costForTwo}
-                  </p>
-                  <p className="rt-reviews">Cost for Two</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <ul className="restaurant-food-list">
-          {foodList.map(eachItem => (
-            <RestaurantFoodItem foodDetails={eachItem} key={eachItem.id} />
-          ))}
-        </ul>
-      </>
-    )
-  }
-
-  renderRestaurantLoader = () => (
-    <div className="restaurant-loader-container">
-      <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
-    </div>
-  )
-
-  renderRestaurantFailure = () => (
-    <div className="restaurant-failure-container">
-      <h1 className="restaurant-failure-heading">
-        Restaurant is currently closed!
-      </h1>
-      <p className="restaurant-failure-para">
-        Please come and check again later.
-      </p>
-    </div>
-  )
-
-  renderRestaurantApiStatus = () => {
-    const {apiStatus} = this.state
-    switch (apiStatus) {
-      case apiStatusConstants.success:
-        return this.renderRestaurantDetails()
-      case apiStatusConstants.inProgress:
-        return this.renderRestaurantLoader()
-      case apiStatusConstants.failure:
-        return this.renderRestaurantFailure()
-      default:
-        return null
-    }
-  }
-
   render() {
     return (
-      <div className="restaurant-detail-container">
-        {this.renderRestaurantApiStatus()}
-      </div>
+      <AppTheme.Consumer>
+        {value => {
+          const {activeTheme} = value
+          const homeBg = activeTheme === 'light' ? '#ffffff' : '#181818'
+          const bannerBg = activeTheme === 'light' ? '#333333' : '#333333'
+
+          const renderRestaurantDetails = () => {
+            const {restaurantDetailsList, foodList} = this.state
+            const {
+              imgUrl,
+              name,
+              cuisine,
+              location,
+              rating,
+              reviews,
+              costForTwo,
+            } = restaurantDetailsList
+
+            return (
+              <>
+                <div
+                  className="restaurant-banner-container"
+                  style={{backgroundColor: `${bannerBg}`}}
+                >
+                  <div className="restaurant-banner-details">
+                    <img
+                      src={imgUrl}
+                      alt="restaurant"
+                      className="restaurant-logo"
+                    />
+                    <div className="restaurant-details">
+                      <h1 className="rt-heading">{name}</h1>
+                      <p className="rt-para">{cuisine}</p>
+                      <p className="rt-para">{location}</p>
+                      <div className="rating-cost">
+                        <div>
+                          <p className="rt-rating">
+                            {' '}
+                            <span>
+                              <AiFillStar className="rt-icon" />
+                            </span>{' '}
+                            {rating}
+                          </p>
+                          <p className="rt-reviews"> {reviews}+ Ratings</p>
+                        </div>
+                        <div>
+                          <hr className="vertical-line" />
+                        </div>
+                        <div>
+                          <p className="rt-rating">
+                            {' '}
+                            <span>
+                              <BiRupee className="rt-icon" />
+                            </span>
+                            {costForTwo}
+                          </p>
+                          <p className="rt-reviews">Cost for Two</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ul className="restaurant-food-list">
+                  {foodList.map(eachItem => (
+                    <RestaurantFoodItem
+                      foodDetails={eachItem}
+                      key={eachItem.id}
+                    />
+                  ))}
+                </ul>
+              </>
+            )
+          }
+
+          const renderRestaurantLoader = () => (
+            <div className="restaurant-loader-container">
+              <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
+            </div>
+          )
+
+          const renderRestaurantFailure = () => (
+            <div className="restaurant-failure-container">
+              <h1 className="restaurant-failure-heading">
+                Restaurant is currently closed!
+              </h1>
+              <p className="restaurant-failure-para">
+                Please come and check again later.
+              </p>
+            </div>
+          )
+
+          const renderRestaurantApiStatus = () => {
+            const {apiStatus} = this.state
+            switch (apiStatus) {
+              case apiStatusConstants.success:
+                return renderRestaurantDetails()
+              case apiStatusConstants.inProgress:
+                return renderRestaurantLoader()
+              case apiStatusConstants.failure:
+                return renderRestaurantFailure()
+              default:
+                return null
+            }
+          }
+
+          return (
+            <div
+              className="restaurant-detail-container"
+              style={{backgroundColor: `${homeBg}`}}
+            >
+              {renderRestaurantApiStatus()}
+            </div>
+          )
+        }}
+      </AppTheme.Consumer>
     )
   }
 }

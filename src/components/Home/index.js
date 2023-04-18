@@ -8,6 +8,8 @@ import {AiOutlineSearch} from 'react-icons/ai'
 
 import Counter from '../Counter'
 import RestaurantItem from '../RestaurantItem'
+import AppTheme from '../../context/AppTheme'
+
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './index.css'
@@ -76,7 +78,6 @@ class Home extends Component {
         id: eachItem.id,
         imgUrl: eachItem.image_url,
       }))
-      console.log(fetchedData)
       this.setState({
         bannerList: fetchedData,
         carouselApiStatus: carouselApiStatusConstants.success,
@@ -89,13 +90,7 @@ class Home extends Component {
   }
 
   renderHomeBannerLoader = () => (
-    <div className="loader-container">
-      <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
-    </div>
-  )
-
-  renderRestaurantDataLoader = () => (
-    <div className="loader-container">
+    <div className="loader-banner-container">
       <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
     </div>
   )
@@ -111,6 +106,7 @@ class Home extends Component {
       speed: 500,
       infinite: true,
       autoplaySpeed: 3000,
+      arrows: false,
     }
     return (
       <Slider {...settings}>
@@ -170,7 +166,6 @@ class Home extends Component {
           reviews: eachItem.user_rating.total_reviews,
         },
       }))
-      console.log(fetchedData)
       this.setState({
         restaurantsList: fetchedData,
         restaurantApiStatus: restaurantApiStatusConstants.success,
@@ -206,33 +201,6 @@ class Home extends Component {
     this.setState({activePage: page}, this.getHomeData)
   }
 
-  renderRestaurantFailure = () => (
-    <div className="restaurant-failure-container">
-      <img
-        src="https://res.cloudinary.com/dpjowvn70/image/upload/v1674120441/cooking_1_1x_kjca9t.png"
-        alt="no-restaurant"
-      />
-      <h1 className="no-results-heading">Restaurants Not Found!</h1>
-      <p className="no-results-para">
-        Try different keywords or check again later.
-      </p>
-    </div>
-  )
-
-  renderRestaurantData = () => {
-    const {restaurantsList} = this.state
-
-    return (
-      <>
-        <ul className="restaurant-list">
-          {restaurantsList.map(eachItem => (
-            <RestaurantItem restaurantDetails={eachItem} key={eachItem.id} />
-          ))}
-        </ul>
-      </>
-    )
-  }
-
   renderBannerApiStatus = () => {
     const {carouselApiStatus} = this.state
     switch (carouselApiStatus) {
@@ -247,75 +215,150 @@ class Home extends Component {
     }
   }
 
-  renderRestaurantApiStatus = () => {
-    const {restaurantApiStatus} = this.state
-    switch (restaurantApiStatus) {
-      case restaurantApiStatusConstants.success:
-        return this.renderRestaurantData()
-      case restaurantApiStatusConstants.inProgress:
-        return this.renderRestaurantDataLoader()
-      case restaurantApiStatusConstants.failure:
-        return this.renderRestaurantFailure()
-      default:
-        return null
-    }
-  }
-
   render() {
     const {selectedSortByValue, searchInput, paginationStatus} = this.state
     return (
-      <div className="home-bg-container">
-        <div className="banner-container">{this.renderBannerApiStatus()}</div>
-        <div className="home-container">
-          <h1 className="home-heading">Popular Restaurants</h1>
-          <p className="home-para">
-            Select your favourite restaurant special dish and make your day
-            happy...
-          </p>
-          <div className="search-sort-container">
-            <div className="search-container">
-              <>
-                <input
-                  type="search"
-                  placeholder="Search..."
-                  value={searchInput}
-                  onChange={this.onChangeSearch}
-                  onKeyDown={this.onKeySearch}
-                  className="search-input"
-                />
-                <button
-                  type="button"
-                  className="search-btn"
-                  onClick={this.onClickSearch}
-                >
-                  <AiOutlineSearch />
-                </button>
-              </>
-            </div>
+      <AppTheme.Consumer>
+        {value => {
+          const {activeTheme} = value
 
-            <div className="sort-by-container">
-              <MdSort color="#475569" className="sort-icon" />
-              <p className="sort-by-text">Sort by </p>
-              <select
-                className="sort-by-select"
-                onChange={this.onChangeSort}
-                value={selectedSortByValue}
+          const homeBg = activeTheme === 'light' ? '#ffffff' : '#181818'
+          const homeHeading = activeTheme === 'light' ? ' #183b56' : '#f1f1f1'
+          const homePara = activeTheme === 'light' ? '#64748b' : '#94a3b8'
+          const homeSort = activeTheme === 'light' ? '#64748b' : 'orange'
+
+          const renderRestaurantFailure = () => (
+            <div className="restaurant-failure-container">
+              <img
+                src="https://res.cloudinary.com/dpjowvn70/image/upload/v1674120441/cooking_1_1x_kjca9t.png"
+                alt="no-restaurant"
+                className="no-result-img"
+              />
+              <h1
+                className="no-results-heading"
+                style={{color: `${homeHeading}`}}
               >
-                {sortByOptions.map(eachSort => (
-                  <option key={eachSort.id}>{eachSort.displayText}</option>
-                ))}
-              </select>
+                Restaurants Not Found!
+              </h1>
+              <p className="no-results-para">
+                Try different keywords or check again later.
+              </p>
             </div>
-          </div>
-        </div>
-        <hr className="hr-line" />
-        {this.renderRestaurantApiStatus()}
-        {paginationStatus ? (
-          <Counter pageChangeFunction={this.getActivePage} />
-        ) : (
-          ''
-        )}
-      </div>
+          )
+
+          const renderRestaurantData = () => {
+            const {restaurantsList} = this.state
+
+            return (
+              <>
+                <ul className="restaurant-list">
+                  {restaurantsList.map(eachItem => (
+                    <RestaurantItem
+                      restaurantDetails={eachItem}
+                      key={eachItem.id}
+                    />
+                  ))}
+                </ul>
+              </>
+            )
+          }
+
+          const renderRestaurantDataLoader = () => (
+            <div className="loader-container">
+              <Loader type="TailSpin" color="#F7931E" height="50" width="50" />
+            </div>
+          )
+
+          const renderRestaurantApiStatus = () => {
+            const {restaurantApiStatus} = this.state
+            switch (restaurantApiStatus) {
+              case restaurantApiStatusConstants.success:
+                return renderRestaurantData()
+              case restaurantApiStatusConstants.inProgress:
+                return renderRestaurantDataLoader()
+              case restaurantApiStatusConstants.failure:
+                return renderRestaurantFailure()
+              default:
+                return null
+            }
+          }
+
+          return (
+            <div
+              className="home-bg-container"
+              style={{backgroundColor: `${homeBg}`}}
+            >
+              <div className="banner-container">
+                {this.renderBannerApiStatus()}
+              </div>
+              <div className="home-container">
+                <h1 className="home-heading" style={{color: `${homeHeading}`}}>
+                  Popular Restaurants
+                </h1>
+                <p className="home-para" style={{color: `${homePara}`}}>
+                  Select your favourite restaurant special dish and make your
+                  day happy...
+                </p>
+                <div className="search-sort-container">
+                  <div className="search-container">
+                    <>
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchInput}
+                        onChange={this.onChangeSearch}
+                        onKeyDown={this.onKeySearch}
+                        className="search-input"
+                        style={{color: `${homePara}`}}
+                      />
+                      <button
+                        type="button"
+                        className="search-btn"
+                        onClick={this.onClickSearch}
+                      >
+                        <AiOutlineSearch />
+                      </button>
+                    </>
+                  </div>
+
+                  <div className="sort-by-container">
+                    <MdSort
+                      color="#475569"
+                      className="sort-icon"
+                      style={{color: `${homePara}`}}
+                    />
+                    <p className="sort-by-text" style={{color: `${homePara}`}}>
+                      Sort by{' '}
+                    </p>
+                    <select
+                      className="sort-by-select"
+                      onChange={this.onChangeSort}
+                      value={selectedSortByValue}
+                      style={{color: `${homeSort}`}}
+                    >
+                      {sortByOptions.map(eachSort => (
+                        <option
+                          style={{color: `${homePara}`}}
+                          key={eachSort.id}
+                        >
+                          {eachSort.displayText}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <hr className="hr-line" />
+              {renderRestaurantApiStatus()}
+              {paginationStatus ? (
+                <Counter pageChangeFunction={this.getActivePage} />
+              ) : (
+                ''
+              )}
+            </div>
+          )
+        }}
+      </AppTheme.Consumer>
     )
   }
 }
