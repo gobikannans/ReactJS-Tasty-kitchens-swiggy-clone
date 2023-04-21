@@ -13,7 +13,6 @@ dependencies:
   react-icons: 4.3.1_react@17.0.1
   react-loader-spinner: 4.0.0_react-dom@17.0.1+react@17.0.1
   react-router-dom: 5.2.0_react@17.0.1
-  react-simple-widgets: 6.7.0_2cbade3716fc29f08997b21f2c3ca3cc
   react-slick: 0.28.1_react-dom@17.0.1+react@17.0.1
   reactjs-popup: 2.0.5_react-dom@17.0.1+react@17.0.1
   slick-carousel: 1.8.1
@@ -11989,19 +11988,6 @@ packages:
         optional: true
     resolution:
       integrity: sha512-S5eO4vjUzUisvkIPB7jVsKtuH2HhWcASREYWHAQ1FP5HyCv3xgn+wpILAEWkmy+A+tTNbSZClhxjT3qz6g4L1A==
-  /react-simple-widgets/6.7.0_2cbade3716fc29f08997b21f2c3ca3cc:
-    dependencies:
-      react: 17.0.1
-      react-dom: 17.0.1_react@17.0.1
-      react-router-dom: 5.2.0_react@17.0.1
-    dev: false
-    peerDependencies:
-      formik: ^2.1.4
-      react: ^18.0.0
-      react-dom: ^18.0.0
-      react-router-dom: ^6.3.0
-    resolution:
-      integrity: sha512-xirdbFSlbttl2LfVT8J/v4wVWhNN8gemJK1cgz281Zf2DI/YOFoMvHCBq7Ntwoh/Ql7oba7haUgQeY1fIdorlw==
   /react-slick/0.28.1_react-dom@17.0.1+react@17.0.1:
     dependencies:
       classnames: 2.3.2
@@ -14722,7 +14708,6 @@ specifiers:
   react-loader-spinner: 4.0.0
   react-router-dom: 5.2.0
   react-scripts: 4.0.3
-  react-simple-widgets: 6.7.0
   react-slick: 0.28.1
   reactjs-popup: 2.0.5
   slick-carousel: 1.8.1

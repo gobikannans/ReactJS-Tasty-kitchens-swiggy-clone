@@ -142,9 +142,6 @@
 }
 
 @media screen and (max-width: 766px) {
-  .login-bg-container {
-    align-items: none;
-  }
   .login-title-container {
     display: flex;
     flex-direction: row;
